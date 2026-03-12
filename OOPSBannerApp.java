@@ -3,76 +3,66 @@ import java.util.Map;
 
 public class OOPSBannerApp {
 
-    static class CharacterPattern {
+    private static Map<Character, String[]> patternMap = new HashMap<>();
 
-        private char character;
-        private String[] pattern;
+    static {
 
-        public CharacterPattern(char character, String[] pattern) {
-            this.character = character;
-            this.pattern = pattern;
-        }
+        patternMap.put('O', new String[]{
+                " ***** ",
+                "*     *",
+                "*     *",
+                "*     *",
+                "*     *",
+                "*     *",
+                " ***** "
+        });
 
-        public String[] getPattern() {
-            return pattern;
-        }
+        patternMap.put('P', new String[]{
+                " ***** ",
+                "*     *",
+                "*     *",
+                " ***** ",
+                "*      ",
+                "*      ",
+                "*      "
+        });
+
+        patternMap.put('S', new String[]{
+                " ***** ",
+                "*      ",
+                "*      ",
+                " ***** ",
+                "      *",
+                "      *",
+                " ***** "
+        });
     }
 
-    static class CharacterPatternMap {
+    public static void renderBanner(String word) {
 
-        private static Map<Character, CharacterPattern> patternMap = new HashMap<>();
+        int height = 7;
 
-        static {
+        for (int row = 0; row < height; row++) {
 
-            patternMap.put('O', new CharacterPattern('O', new String[]{
-                    " ***** ",
-                    "*     *",
-                    "*     *",
-                    "*     *",
-                    "*     *",
-                    "*     *",
-                    " ***** "
-            }));
+            StringBuilder line = new StringBuilder();
 
-            patternMap.put('P', new CharacterPattern('P', new String[]{
-                    " ***** ",
-                    "*     *",
-                    "*     *",
-                    " ***** ",
-                    "*      ",
-                    "*      ",
-                    "*      "
-            }));
+            for (char c : word.toCharArray()) {
 
-            patternMap.put('S', new CharacterPattern('S', new String[]{
-                    " ***** ",
-                    "*      ",
-                    "*      ",
-                    " ***** ",
-                    "      *",
-                    "      *",
-                    " ***** "
-            }));
-        }
+                String[] pattern = patternMap.get(c);
 
-        public static String[] getPattern(char c) {
-            return patternMap.get(c).getPattern();
+                if (pattern != null) {
+                    line.append(pattern[row]).append(" ");
+                }
+            }
+
+            System.out.println(line);
         }
     }
 
     public static void main(String[] args) {
 
-        char[] word = {'O','O','P','S'};
+        String word = "OOPS";
 
-        for (int row = 0; row < 7; row++) {
-
-            StringBuilder line = new StringBuilder();
-
-            for (char c : word) {
-                line.append(CharacterPatternMap.getPattern(c)[row]).append(" ");
-            }
-
-            System.out.println(line);
-        }
+        renderBanner(word);
     }
 }
